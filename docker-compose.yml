@@ -2,9 +2,11 @@ version: "3.8"
 
 services:
   db:
-    image: mongo:6.0
+    image: mongo:7.0
     container_name: n8n_mongodb
     restart: unless-stopped
+    ports:
+      - "27017:27017"
     env_file:
       - .env
     volumes:
