@@ -32,6 +32,14 @@ services:
       db:
         condition: service_healthy
 
+  slide_generator:
+    build:
+      context: ../capstone-slide-generator
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+
 volumes:
   n8n_data_vol:
     driver: local
