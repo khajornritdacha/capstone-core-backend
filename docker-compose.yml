@@ -1,22 +1,6 @@
 version: "3.8"
 
 services:
-  db:
-    image: mongo:7.0
-    container_name: n8n_mongodb
-    restart: unless-stopped
-    ports:
-      - "27017:27017"
-    env_file:
-      - .env
-    volumes:
-      - mongo_data_vol:/data/db
-    healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
-      interval: 5s
-      timeout: 5s
-      retries: 10
-
   n8n:
     image: n8nio/n8n:latest
     container_name: n8n
@@ -28,9 +12,6 @@ services:
       - n8n_data_vol:/home/node/.n8n
       - ./workflows:/workflows
     restart: unless-stopped
-    depends_on:
-      db:
-        condition: service_healthy
 
   slide_generator:
     build:
@@ -42,6 +23,4 @@ services:
 
 volumes:
   n8n_data_vol:
-    driver: local
-  mongo_data_vol:
     driver: local
