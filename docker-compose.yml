@@ -20,6 +20,14 @@ services:
     ports:
       - "5000:5000"
     restart: unless-stopped
+  
+  llm-service:
+    build:
+      context: llm-service
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
 
 volumes:
   n8n_data_vol:

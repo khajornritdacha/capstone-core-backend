@@ -2,3 +2,4 @@
 .DS_Store
 n8n_data/
 .venv/
+**/__pycache__/

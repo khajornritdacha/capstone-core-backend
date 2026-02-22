@@ -1,0 +1,39 @@
+from kokoro import KPipeline
+from IPython.display import display, Audio
+import soundfile as sf
+
+# 1. Initialize the pipeline
+# lang_code='a' is for American English. ('b' for British)
+# This will download the model (~300MB) automatically the first time.
+pipeline = KPipeline(lang_code='a') 
+
+# 2. Define your text
+# Note: Kokoro handles punctuation very well for pauses.
+text = """
+Why Learn Chinese?
+Global Importance: Spoken by over 1 billion people. Cultural Richness: Access to a millennia-old civilization. Business Opportunities: Growing economic ties worldwide. Cognitive Benefits: Enhances memory and problem-solving skills. Travel Experience: Deepen your understanding of China."
+"""
+
+# 3. Generate Audio
+# voice='af_heart' is a popular female voice. 
+# voice='am_michael' is a popular male voice.
+print("Generating audio...")
+generator = pipeline(
+    text, 
+    voice='af_heart', # Try 'af_bella', 'am_adam', 'bf_emma' (British)
+    speed=1, 
+    split_pattern=r'\n+' # Splits text by lines to process chunks
+)
+
+# 4. Save the output
+# The generator yields chunks of audio as it processes them.
+all_audio = []
+for i, (graphemes, phonemes, audio) in enumerate(generator):
+    print(graphemes, phonemes, audio)
+    display(Audio(data=audio, rate=24000, autoplay=i==0))
+    print(f"Generated chunk {i}")
+    all_audio.extend(audio)
+
+# Save to file (24khz is the native sample rate for Kokoro)
+sf.write('kokoro_output.wav', all_audio, 24000)
+print("Saved to kokoro_output.wav")
