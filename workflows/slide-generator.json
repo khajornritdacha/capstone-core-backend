@@ -115,7 +115,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "http://slide_generator:5000/generate",
+        "url": "http://slide_generator:5001/generate",
         "sendBody": true,
         "bodyParameters": {
           "parameters": [
